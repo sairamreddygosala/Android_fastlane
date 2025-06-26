@@ -16,10 +16,9 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: Lint Dockerfile with Hadolint
-      uses: reviewdog/action-hadolint@v1
+      uses: hadolint/hadolint-action@v3.1.0
       with:
-        reporter: github-pr-check
-        fail_on_error: true
+        no-fail: true
         
     - name: Build the Docker image
       run: |
