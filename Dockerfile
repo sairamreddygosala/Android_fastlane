@@ -8,7 +8,10 @@ ENV ANDROID_HOME "${ANDROID_SDK_ROOT}"
 ENV PATH "$PATH:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:${ANDROID_SDK_ROOT}/platform-tools"
 ENV DEBIAN_FRONTEND noninteractive
 
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 #installing dependencies
+# hadolint ignore=DL3008
 RUN apt-get -qq update \
  && apt-get install -y --no-install-recommends \
       bzip2 \
@@ -47,10 +50,9 @@ RUN mkdir -p /root/.android \
  && touch /root/.android/repositories.cfg \
  && sdkmanager --update
 
-ADD docker_packages.txt /sdk
+COPY docker_packages.txt /sdk
 RUN sdkmanager --package_file=/sdk/docker_packages.txt
 
 #installing fastlane
 COPY Gemfile . 
-RUN gem install bundler fastlane
-RUN bundle install
+RUN gem install bundler fastlane && bundle install
