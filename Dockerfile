@@ -8,8 +8,6 @@ ENV ANDROID_HOME "${ANDROID_SDK_ROOT}"
 ENV PATH "$PATH:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:${ANDROID_SDK_ROOT}/platform-tools"
 ENV DEBIAN_FRONTEND noninteractive
 
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-
 #installing dependencies
 # hadolint ignore=DL3008
 RUN apt-get -qq update \

@@ -22,20 +22,22 @@ jobs:
         
     - name: Build the Docker image
       run: |
-        docker build . --file Dockerfile --tag android_fastlane$(date +%s)
+        docker build . --file Dockerfile --tag ghcr.io/${{ github.repository }}:${{ github.sha }}
 
     - name: Scan Docker image with Trivy
-      uses: aquasecurity/trivy-action@master
+      uses: aquasecurity/trivy-action@0.28.0
       with:
-        image-ref: ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
+        image-ref: ghcr.io/${{ github.repository }}:${{ github.sha }}
         format: table
         exit-code: 1
         ignore-unfixed: true
+        vuln-type: 'os,library'
+        severity: 'CRITICAL,HIGH'
         
     - name: Generate SBOM
-      uses: anchore/sbom-action@v0.15.2
+      uses: anchore/sbom-action@v0
       with:
-        image: ghcr.io/${{ github.repository }}:${{ github.event.release.tag_name }}
+        image: ghcr.io/${{ github.repository }}:${{ github.sha }}
         format: spdx-json
         output-file: sbom.spdx.json
 
