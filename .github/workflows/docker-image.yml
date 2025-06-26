@@ -10,7 +10,7 @@ on:
 
 jobs:
   build_image:
-    if: github.event_name == "push"
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -19,7 +19,7 @@ jobs:
         docker build . --file Dockerfile --tag android_fastlane$(date +%s)
 
   push_image:
-    if: github.event_name == "release"
+    if: github.event_name == 'release'
     runs-on: ubuntu-latest
     permissions:
       contents: read
