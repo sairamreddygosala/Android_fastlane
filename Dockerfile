@@ -51,6 +51,6 @@ ADD docker_packages.txt /sdk
 RUN sdkmanager --package_file=/sdk/docker_packages.txt
 
 #installing fastlane
-COPY Gemfile .
+# COPY Gemfile . 
 RUN gem install bundler fastlane
 RUN bundle install
